@@ -72,7 +72,7 @@ if (!isset($templateParameters)) {
                 echo '<span class="error">' . $templateParameters['errors']['rxNumber'] .  '</span>';
             }
             ?>
-            <input name="bestrx-rxnumber" type="text" class="field text fn" value="<?php echo ($templateParameters['rxNumber'] ?? '') ?>" size="8" tabindex="4">
+            <input id="bestrx-rxnumber" name="bestrx-rxnumber" type="text" class="field text fn" value="<?php echo ($templateParameters['rxNumber'] ?? '') ?>" size="8" tabindex="4">
         </div>
     </div>
 

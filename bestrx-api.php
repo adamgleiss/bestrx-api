@@ -6,7 +6,7 @@
  * Description: Allows user to submit perscription refill requests via BestRx
  * Version:     1.1
  * Author:      Adam Gleiss
- * Author URI:  https://github.com/WordPress/classic-editor/
+ * Author URI:  https://github.com/adamgleiss/bestrx-api.git
  * License:     GPLv2 or later
  * License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
