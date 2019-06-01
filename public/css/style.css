@@ -6,3 +6,13 @@
 #bestrx-message-div p  {
     margin-top:20px;
 }
+
+#bestrx-refill-form .bestrx-required:after {
+    content: " *";
+    color: red;
+}
+
+.bestrx-refill textarea  {
+    width: 100%;
+    font-size: 18px;
+}

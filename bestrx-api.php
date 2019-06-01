@@ -24,7 +24,7 @@ if (!defined('ABSPATH')) {
 
 if (!class_exists('BestRx_API')) {
 
-    require_once (__DIR__ . '/includes/bestrx-admin-loader.php');
+    require_once(__DIR__ . '/includes/bestrx-admin-loader.php');
 
     class BestRx_API
     {
@@ -58,7 +58,7 @@ if (!class_exists('BestRx_API')) {
             add_shortcode('bestrx_api_form', [$this, 'bestrx_api_form']);
             add_action('wp_enqueue_scripts', [$this, 'setup_css']);
 
-            $plugin = plugin_basename( __FILE__ );
+            $plugin      = plugin_basename(__FILE__);
             $adminLoader = new BestRxAdminLoader($plugin);
         }
 
@@ -81,7 +81,7 @@ if (!class_exists('BestRx_API')) {
                 exit; //Stop processing, could be CSRF
             }
 
-            $formData = $this->get_form_data();
+            $formData           = $this->get_form_data();
             $templateParameters = array_merge($templateParameters, $formData);
 
             if (count($formData['errors']) > 0) {
@@ -90,9 +90,10 @@ if (!class_exists('BestRx_API')) {
 
             $status = $this->submit_perscription($formData);
 
-            $error  = $status['error'] ?? false;
+            $error = $status['error'] ?? false;
             if ($error) {
                 $templateParameters['generalError'] = $error;
+
                 return $this->display_page('bestrx-form', $templateParameters);
             }
 
@@ -116,7 +117,9 @@ if (!class_exists('BestRx_API')) {
                 'rxNumber'  => sanitize_text_field($_POST['bestrx-rxnumber']),
                 'dob'       => sanitize_text_field($_POST['bestrx-dob']),
                 'dobObject' => null,
-                'deliver'   => sanitize_text_field($_POST['bestrx-delivery'])
+                'deliver'   => sanitize_text_field($_POST['bestrx-delivery']),
+                'phone'     => sanitize_text_field($_POST['bestrx-phone']),
+                'notes'     => sanitize_text_field($_POST['bestrx-notes']),
             ];
 
             $errors = [];
@@ -138,6 +141,12 @@ if (!class_exists('BestRx_API')) {
 
             if (!in_array($formData['deliver'], self::DELIVERY_OPTIONS)) {
                 $errors['deliver'] = 'A valid delivery options is required.';
+            }
+
+            if (!empty($formData['phone'])) {
+                if (!preg_match("/^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$/", $formData['phone'], $match)){
+                    $errors['phone'] = "Please enter a valid ten digit phone number.";
+                }
             }
 
             $formData['errors'] = $errors;
@@ -177,6 +186,15 @@ if (!class_exists('BestRx_API')) {
                 "RequestType"       => "WEB"
             ];
 
+            if ($templateParameters['phone']) {
+                $jsonParams['Phone'] = $templateParameters ['phone'];
+            }
+
+            if ($templateParameters['notes']) {
+                $jsonParams['Notes'] = $templateParameters ['notes'];
+            }
+
+
             $args = [
                 'method'   => 'POST',
                 'timeout'  => 45,
@@ -197,14 +215,15 @@ if (!class_exists('BestRx_API')) {
 
                 if (empty($responseData)) {
                     $status['error'] = 'Something went wrong with the request (could not read API data).';
+
                     return $status;
                 }
 
                 if ($responseData['ErrorDetail'] ?? false) {
                     $status['error'] = $responseData['ErrorDetail'];
+
                     return $status;
                 }
-
 
                 $status['message'] = $responseData['RxInRefillResponse'][0]['StatusDesc'] ?? 'Perscription submitted successfully.';
             }
