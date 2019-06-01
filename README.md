@@ -7,7 +7,7 @@ This is a simple form and API wrapper to submit perscriptions to BestRx.
 1. Upload `bestrx-api` directory to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. There will be 3 new settings under the General tab. Contact BestRx for these values.
-4. Add the [] shortcode to the location you want to display the form.
+4. Add the `[bestrx_api_form]` shortcode to the location you want to display the form.
 
 ## Screenshots
 
