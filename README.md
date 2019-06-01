@@ -11,7 +11,8 @@ This is a simple form and API wrapper to submit perscriptions to BestRx.
 
 ## Screenshots
 
-1. These three settings with be added to the General tab in the admin section. You need to contact BestRx for thier values.
+These three settings with be added to the General tab in the admin section. You need to contact BestRx for thier values.
+![Admin Settings Example](https://github.com/adamgleiss/bestrx-api/blob/master/assets/screenshot-1.png)
 
 ## License
 
